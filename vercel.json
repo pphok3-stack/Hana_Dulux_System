@@ -37,6 +37,5 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
         "FILESYSTEM_DISK": "public"
-    },
-    "buildCommand": "composer install --no-dev --optimize-autoloader"
+    }
 }
