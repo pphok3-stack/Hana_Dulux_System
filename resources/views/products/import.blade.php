@@ -8,9 +8,6 @@
             @csrf
             <x-card>
                 <x-slot:header>
-                    <x-slot:title>
-                        {{ __('Import Products') }}
-                    </x-slot:title>
 
                     <x-slot:actions>
                         <x-action.close route="{{ route('products.index') }}" />
