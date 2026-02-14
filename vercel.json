@@ -16,6 +16,10 @@
             "dest": "public/build/$1"
         },
         {
+            "src": "/dist/(.*)",
+            "dest": "public/dist/$1"
+        },
+        {
             "src": "/(.*)",
             "dest": "/api/index.php"
         }
@@ -33,5 +37,6 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
         "FILESYSTEM_DISK": "public"
-    }
+    },
+    "buildCommand": "composer install --no-dev --optimize-autoloader"
 }
