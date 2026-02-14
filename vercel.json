@@ -11,22 +11,60 @@
             "dest": "/public/build/$1"
         },
         {
+            "src": "/dist/(.*)",
+            "dest": "/public/dist/$1"
+        },
+        {
+            "src": "/assets/(.*)",
+            "dest": "/public/assets/$1"
+        },
+        {
+            "src": "/static/(.*)",
+            "dest": "/public/static/$1"
+        },
+        {
+            "src": "/vendor/(.*)",
+            "dest": "/public/vendor/$1"
+        },
+        {
+            "src": "/favicon\\.ico",
+            "dest": "/public/favicon.ico"
+        },
+        {
+            "src": "/robots\\.txt",
+            "dest": "/public/robots.txt"
+        },
+        {
             "src": "/(.*)",
             "dest": "/api/index.php"
         }
     ],
     "env": {
+        "APP_NAME": "Laravel",
         "APP_ENV": "production",
+        "APP_KEY": "base64:3EjVd+deuuzMrwkTn3X5xHQVmxOu6uzJWAG5negAagU=",
         "APP_DEBUG": "false",
+        "APP_URL": "https://hana-dulux-system.vercel.app",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "VIEW_COMPILED_PATH": "/tmp/views",
-        "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie"
+        "LOG_LEVEL": "error",
+        "DB_CONNECTION": "pgsql",
+        "DB_HOST": "db.xdpbbqvshtnadqplzzrf.supabase.co",
+        "DB_PORT": "5432",
+        "DB_DATABASE": "postgres",
+        "DB_USERNAME": "postgres",
+        "DB_PASSWORD": "010220Kheang$",
+        "CACHE_DRIVER": "array",
+        "SESSION_DRIVER": "cookie",
+        "SESSION_LIFETIME": "120",
+        "QUEUE_CONNECTION": "sync",
+        "BROADCAST_DRIVER": "log",
+        "FILESYSTEM_DISK": "public"
     },
     "outputDirectory": "public"
 }
