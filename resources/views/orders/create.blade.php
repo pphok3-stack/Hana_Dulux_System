@@ -46,13 +46,13 @@
                                         <span class="text-danger">*</span>
                                     </label>
 
-                                    <select class="form-select form-control-solid @error('customer_id') is-invalid @enderror" id="customer_id" name="customer_id">
-                                        <option selected="" disabled="">
+                                    <select class="form-select form-control-solid @error('customer_id') is-invalid @enderror" id="customer_id" name="customer_id" required>
+                                        <option value="" {{ old('customer_id') ? '' : 'selected' }} disabled>
                                             Select a customer:
                                         </option>
 
                                         @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}" @selected( old('customer_id') == $customer->id)>
+                                            <option value="{{ $customer->id }}" @selected(old('customer_id') == $customer->id)>
                                                 {{ $customer->name }}
                                             </option>
                                         @endforeach

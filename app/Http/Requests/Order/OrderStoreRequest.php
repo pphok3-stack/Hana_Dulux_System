@@ -21,7 +21,8 @@ class OrderStoreRequest extends FormRequest
         return [
             'customer_id' => 'required',
             'payment_type' => 'required',
-            'pay' => 'required|numeric'
+            'pay' => 'required|numeric',
+            'apply_points' => 'nullable|boolean'
         ];
     }
 

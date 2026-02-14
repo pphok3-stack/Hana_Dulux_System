@@ -54,7 +54,7 @@
                                     {{ $purchase->created_at->format('d-m-Y') }}
                                 </td>
                                 <td class="text-center">
-                                    {{ Number::currency($purchase->total_amount, 'EUR') }}
+                                    {{ Number::currency($purchase->total_amount, 'USD') }}
                                 </td>
                                 <td class="text-center">
                                     <a href="{{ route('purchases.show', $purchase) }}" class="btn btn-icon btn-outline-info">

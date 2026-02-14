@@ -37,13 +37,7 @@ class CustomerController extends Controller
             'uuid' => Str::uuid(),
             'photo' => $image,
             'name' => $request->name,
-            'email' => $request->email,
             'phone' => $request->phone,
-            'shopname' => $request->shopname,
-            'type' => $request->type,
-            'account_holder' => $request->account_holder,
-            'account_number' => $request->account_number,
-            'bank_name' => $request->bank_name,
             'address' => $request->address,
         ]);
 
@@ -90,13 +84,7 @@ class CustomerController extends Controller
         $customer->update([
             'photo' => $image,
             'name' => $request->name,
-            'email' => $request->email,
             'phone' => $request->phone,
-            'shopname' => $request->shopname,
-            'type' => $request->type,
-            'account_holder' => $request->account_holder,
-            'account_number' => $request->account_number,
-            'bank_name' => $request->bank_name,
             'address' => $request->address,
         ]);
 

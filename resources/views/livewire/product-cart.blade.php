@@ -25,7 +25,6 @@
                     <th class="align-middle text-center">Stock</th>
                     <th class="align-middle text-center">Quantity</th>
                     <th class="align-middle text-center">Discount</th>
-                    <th class="align-middle text-center">Tax</th>
                     <th class="align-middle text-center">Sub Total</th>
                     <th class="align-middle text-center">Action</th>
                 </tr>
@@ -69,10 +68,6 @@
                                 </td>
 
                                 <td class="align-middle text-center">
-                                    {{ format_currency($cart_item->options->product_tax) }}
-                                </td>
-
-                                <td class="align-middle text-center">
                                     {{ format_currency($cart_item->options->sub_total) }}
                                 </td>
 
@@ -90,7 +85,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="8" class="text-center">
+                            <td colspan="7" class="text-center">
                         <span class="text-danger">
                             Please search & select products!
                         </span>
@@ -107,10 +102,6 @@
             <div class="table-responsive">
                 <table class="table table-striped">
                     <tr>
-                        <th>Tax ({{ $global_tax }}%)</th>
-                        <td>(+) {{ format_currency(Cart::instance($cart_instance)->tax()) }}</td>
-                    </tr>
-                    <tr>
                         <th>Discount ({{ $global_discount }}%)</th>
                         <td>(-) {{ format_currency(Cart::instance($cart_instance)->discount()) }}</td>
                     </tr>
@@ -122,7 +113,7 @@
                     <tr>
                         <th>Grand Total</th>
                         @php
-                            $total_with_shipping = Cart::instance($cart_instance)->total() + (float) $shipping
+                            $total_with_shipping = Cart::instance($cart_instance)->subtotal() + (float) $shipping
                         @endphp
                         <th>
                             (=) {{ format_currency($total_with_shipping) }}
@@ -136,21 +127,6 @@
     <input type="hidden" name="total_amount" value="{{ $total_with_shipping }}">
 
     <div class="row gx-3 mb-3">
-        <div class="col">
-            <label for="tax_percentage" class="small mb-1">
-                Tax (%)
-            </label>
-
-            <input type="number"
-                   id="tax_percentage"
-                   name="tax_percentage"
-                   wire:model.blur="global_tax"
-                   class="form-control"
-                   min="0" max="100" value="{{ $global_tax }}"
-                   required
-            >
-        </div>
-
         <div class="col">
             <label for="discount_percentage" class="small mb-1">Discount (%)</label>
             <input wire:model.blur="global_discount" type="number" class="form-control" name="discount_percentage" id="discount_percentage" min="0" max="100" value="{{ $global_discount }}" required>

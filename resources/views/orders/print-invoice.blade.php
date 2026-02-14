@@ -59,7 +59,6 @@
                                     <h4 class="inv-title-1">Customer</h4>
                                     <p class="inv-from-1">{{ $order->customer->name }}</p>
                                     <p class="inv-from-1">{{ $order->customer->phone }}</p>
-                                    <p class="inv-from-1">{{ $order->customer->email }}</p>
                                     <p class="inv-from-2">{{ $order->customer->address }}</p>
                                 </div>
                                 @php
@@ -107,17 +106,43 @@
 
                                         <tr>
                                             <td colspan="3" class="text-end">
-                                                <strong>
-                                                    Total
-                                                </strong>
+                                                <strong>Total</strong>
                                             </td>
                                             <td class="align-middle text-center">
-                                                <strong>
-                                                    {{ Number::currency($order->sub_total, 'USD') }}
-                                                </strong>
+                                                <strong>{{ Number::currency($order->total, 'USD') }}</strong>
                                             </td>
                                         </tr>
-                                        
+                                        <tr>
+                                            <td colspan="3" class="text-end">Paid</td>
+                                            <td class="align-middle text-center">
+                                                {{ Number::currency($order->pay, 'USD') }}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-end">Due</td>
+                                            <td class="align-middle text-center">
+                                                {{ Number::currency($order->due, 'USD') }}
+                                            </td>
+                                        </tr>
+                                        @php
+                                            $outstandingBalance = $order->customer->total_due;
+                                        @endphp
+                                        @if($outstandingBalance > 0)
+                                        <tr>
+                                            <td colspan="3" class="text-end">
+                                                <strong style="color: red;">Outstanding Balance (All Orders)</strong>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <strong style="color: red;">{{ Number::currency($outstandingBalance, 'USD') }}</strong>
+                                            </td>
+                                        </tr>
+                                        @endif
+                                        <tr>
+                                            <td colspan="3" class="text-end">Points Balance</td>
+                                            <td class="align-middle text-center">
+                                                {{ $order->customer->points }} pts
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>

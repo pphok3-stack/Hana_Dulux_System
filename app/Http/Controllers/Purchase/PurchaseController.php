@@ -81,12 +81,7 @@ class PurchaseController extends Controller
             ->with('error', 'Please add product!');
         }
         $purchase = Purchase::create([
-            'purchase_no' => IdGenerator::generate([
-                'table' => 'purchases',
-                'field' => 'purchase_no',
-                'length' => 10,
-                'prefix' => 'PRS-'
-            ]),
+            'purchase_no' => generate_code('purchases', 'purchase_no', 'PRS-', 10),
             'status'     => PurchaseStatus::PENDING->value,
             'created_by' => auth()->user()->id,
             'supplier_id.required' =>$request->required,

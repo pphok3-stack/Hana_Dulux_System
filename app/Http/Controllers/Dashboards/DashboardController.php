@@ -18,8 +18,8 @@ class DashboardController extends Controller
         $orders = Order::where("user_id", auth()->id())->count();
         $products = Product::where("user_id", auth()->id())->count();
 
-        $purchases = Purchase::where("user_id", auth()->id())->count();
-        $todayPurchases = Purchase::whereDate('date', today()->format('Y-m-d'))->count();
+        // $purchases = Purchase::where("user_id", auth()->id())->count();
+        // $todayPurchases = Purchase::whereDate('date', today()->format('Y-m-d'))->count();
         $todayProducts = Product::whereDate('created_at', today()->format('Y-m-d'))->count();
         $todayQuotations = Quotation::whereDate('created_at', today()->format('Y-m-d'))->count();
         $todayOrders = Order::whereDate('created_at', today()->format('Y-m-d'))->count();
@@ -30,8 +30,8 @@ class DashboardController extends Controller
         return view('dashboard', [
             'products' => $products,
             'orders' => $orders,
-            'purchases' => $purchases,
-            'todayPurchases' => $todayPurchases,
+            // 'purchases' => $purchases,
+            // 'todayPurchases' => $todayPurchases,
             'todayProducts' => $todayProducts,
             'todayQuotations' => $todayQuotations,
             'todayOrders' => $todayOrders,

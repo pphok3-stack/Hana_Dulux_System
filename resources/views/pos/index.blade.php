@@ -87,15 +87,10 @@
                     </div>
                     <!-- Form Row -->
                     <div class="row gx-3 mb-3">
-                        <!-- Form Group (tax) -->
-                        <div class="col-md-6">
-                            <label class="small mb-1">Tax</label>
-                            <div class="form-control form-control-solid fw-bold text-red">{{ Cart::tax() }}</div>
-                        </div>
                         <!-- Form Group (total) -->
                         <div class="col-md-6">
                             <label class="small mb-1">Total</label>
-                            <div class="form-control form-control-solid fw-bold text-red">{{ Cart::total() }}</div>
+                            <div class="form-control form-control-solid fw-bold text-red">{{ Cart::subtotal() }}</div>
                         </div>
                     </div>
                     <!-- Form Group (customer) -->

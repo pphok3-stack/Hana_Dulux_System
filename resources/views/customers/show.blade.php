@@ -50,10 +50,6 @@
                                         <td>{{ $customer->name }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Email address</td>
-                                        <td>{{ $customer->email }}</td>
-                                    </tr>
-                                    <tr>
                                         <td>Phone number</td>
                                         <td>{{ $customer->phone }}</td>
                                     </tr>
@@ -62,16 +58,20 @@
                                         <td>{{ $customer->address }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Account holder</td>
-                                        <td>{{ $customer->account_holder }}</td>
+                                        <td>Points Balance</td>
+                                        <td>
+                                            <span class="badge bg-success">{{ $customer->points }} pts</span>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Account number</td>
-                                        <td>{{ $customer->account_number }}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Bank name</td>
-                                        <td>{{ $customer->bank_name }}</td>
+                                        <td>Total Outstanding Due</td>
+                                        <td>
+                                            @if($customer->total_due > 0)
+                                                <span class="text-danger fw-bold">${{ number_format($customer->total_due, 2) }}</span>
+                                            @else
+                                                <span class="text-success">$0.00</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

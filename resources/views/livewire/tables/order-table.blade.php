@@ -12,7 +12,36 @@
     </div>
 
     <div class="card-body border-bottom py-3">
-        <div class="d-flex">
+        <div class="row g-3 align-items-end">
+            <div class="col-md-2">
+                <label class="form-label small">{{ __('Customer') }}</label>
+                <input type="text" wire:model.live.debounce.300ms="filterCustomer" class="form-control form-control-sm"
+                    placeholder="{{ __('Filter by name...') }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small">{{ __('From Date') }}</label>
+                <input type="date" wire:model.live="filterStartDate" class="form-control form-control-sm">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label small">{{ __('To Date') }}</label>
+                <input type="date" wire:model.live="filterEndDate" class="form-control form-control-sm">
+            </div>
+            <div class="col-md-3">
+                <button wire:click="resetFilters" class="btn btn-sm btn-outline-secondary me-2">
+                    {{ __('Reset') }}
+                </button>
+                <a href="{{ $this->getDownloadUrl() }}" target="_blank" class="btn btn-sm btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2" />
+                        <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4" />
+                        <path d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z" />
+                    </svg>
+                    {{ __('Print') }}
+                </a>
+            </div>
+        </div>
+        <div class="d-flex mt-3">
             <div class="text-secondary">
                 Show
                 <div class="mx-2 d-inline-block">
@@ -75,12 +104,6 @@
                         </a>
                     </th>
                     <th scope="col" class="align-middle text-center">
-                        <a wire:click.prevent="sortBy('order_status')" href="#" role="button">
-                            {{ __('Status') }}
-                            @include('inclues._sort-icon', ['field' => 'order_status'])
-                        </a>
-                    </th>
-                    <th scope="col" class="align-middle text-center">
                         {{ __('Action') }}
                     </th>
                 </tr>
@@ -104,28 +127,17 @@
                             {{ $order->payment_type }}
                         </td>
                         <td class="align-middle text-center">
-                            {{ Number::currency($order->total, 'EUR') }}
-                        </td>
-                        <td class="align-middle text-center">
-                            <x-status dot
-                                color="{{ $order->order_status === \App\Enums\OrderStatus::COMPLETE ? 'green' : ($order->order_status === \App\Enums\OrderStatus::PENDING ? 'orange' : '') }}"
-                                class="text-uppercase">
-                                {{ $order->order_status->label() }}
-                            </x-status>
+                            {{ Number::currency($order->total, 'USD') }}
                         </td>
                         <td class="align-middle text-center">
                             <x-button.show class="btn-icon" route="{{ route('orders.show', $order->uuid) }}" />
                             <x-button.print class="btn-icon"
                                 route="{{ route('order.downloadInvoice', $order->uuid) }}" />
-                            @if ($order->order_status === \App\Enums\OrderStatus::PENDING)
-                                <x-button.delete class="btn-icon" route="{{ route('orders.cancel', $order) }}"
-                                    onclick="return confirm('Are you sure to cancel invoice no. {{ $order->invoice_no }} ?')" />
-                            @endif
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td class="align-middle text-center" colspan="8">
+                        <td class="align-middle text-center" colspan="7">
                             No results found
                         </td>
                     </tr>

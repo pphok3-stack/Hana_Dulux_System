@@ -27,7 +27,6 @@
                     </div>
                 @enderror
             </div>
-
             <div class="mb-2">
                 <label for="password" class="form-label">
                     Password

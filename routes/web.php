@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerDueController;
 use App\Http\Controllers\Dashboards\DashboardController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Order\DueOrderController;
@@ -59,7 +60,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::resource('/quotations', QuotationController::class);
     Route::resource('/customers', CustomerController::class);
-    Route::resource('/suppliers', SupplierController::class);
+
+    // Customer Due & Points
+    Route::get('/customers-due', [CustomerDueController::class, 'index'])->name('customers.due');
+    Route::get('/customers-due/{uuid}/edit', [CustomerDueController::class, 'edit'])->name('customers.due.edit');
+    Route::put('/customers-due/{uuid}', [CustomerDueController::class, 'update'])->name('customers.due.update');
+    Route::post('/customers-due/{uuid}/pay-all', [CustomerDueController::class, 'payAllDue'])->name('customers.due.payAll');
+    // Route::resource('/suppliers', SupplierController::class);
     Route::resource('/categories', CategoryController::class);
     Route::resource('/units', UnitController::class);
 
@@ -84,6 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/orders/complete', OrderCompleteController::class)->name('orders.complete');
 
     Route::get('/orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::get('/orders/receipt-history', [OrderController::class, 'receiptHistory'])->name('orders.receipt-history');
     Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store');
 
     // SHOW ORDER
@@ -101,23 +109,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/orders/details/{order_id}/download', [OrderController::class, 'downloadInvoice'])->name('order.downloadInvoice');
 
 
-    // Route Purchases
-    Route::get('/purchases/approved', [PurchaseController::class, 'approvedPurchases'])->name('purchases.approvedPurchases');
-    Route::get('/purchases/report', [PurchaseController::class, 'purchaseReport'])->name('purchases.purchaseReport');
-    Route::get('/purchases/report/export', [PurchaseController::class, 'getPurchaseReport'])->name('purchases.getPurchaseReport');
-    Route::post('/purchases/report/export', [PurchaseController::class, 'exportPurchaseReport'])->name('purchases.exportPurchaseReport');
-
-    Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
-    Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');
-    Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
-
-    //Route::get('/purchases/show/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
-    Route::get('/purchases/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
-
-    //Route::get('/purchases/edit/{purchase}', [PurchaseController::class, 'edit'])->name('purchases.edit');
-    Route::get('/purchases/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchases.edit');
-    Route::post('/purchases/update/{purchase}', [PurchaseController::class, 'update'])->name('purchases.update');
-    Route::delete('/purchases/delete/{purchase}', [PurchaseController::class, 'destroy'])->name('purchases.delete');
+    // Route Purchases - commented out (company is direct supplier)
+    // Route::get('/purchases/approved', [PurchaseController::class, 'approvedPurchases'])->name('purchases.approvedPurchases');
+    // Route::get('/purchases/report', [PurchaseController::class, 'purchaseReport'])->name('purchases.purchaseReport');
+    // Route::get('/purchases/report/export', [PurchaseController::class, 'getPurchaseReport'])->name('purchases.getPurchaseReport');
+    // Route::post('/purchases/report/export', [PurchaseController::class, 'exportPurchaseReport'])->name('purchases.exportPurchaseReport');
+    // Route::get('/purchases', [PurchaseController::class, 'index'])->name('purchases.index');
+    // Route::get('/purchases/create', [PurchaseController::class, 'create'])->name('purchases.create');
+    // Route::post('/purchases', [PurchaseController::class, 'store'])->name('purchases.store');
+    // Route::get('/purchases/{purchase}', [PurchaseController::class, 'show'])->name('purchases.show');
+    // Route::get('/purchases/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchases.edit');
+    // Route::post('/purchases/update/{purchase}', [PurchaseController::class, 'update'])->name('purchases.update');
+    // Route::delete('/purchases/delete/{purchase}', [PurchaseController::class, 'destroy'])->name('purchases.delete');
 
     // Route Quotations
     // Route::get('/quotations/{quotation}/edit', [QuotationController::class, 'edit'])->name('quotations.edit');

@@ -14,10 +14,12 @@ class InvoiceController extends Controller
             ->first();
 
         $carts = Cart::content();
+        $outstandingBalance = $customer->total_due;
 
         return view('invoices.create', [
             'customer' => $customer,
-            'carts' => $carts
+            'carts' => $carts,
+            'outstandingBalance' => $outstandingBalance,
         ]);
     }
 }

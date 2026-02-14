@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\Customer;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCustomerRequest extends FormRequest
@@ -33,23 +32,9 @@ class UpdateCustomerRequest extends FormRequest
                 'string',
                 'max:50'
             ],
-            'email' => [
-                'required',
-                'email',
-                'max:50'
-            ],
             'phone' => [
                 'required',
                 'string',
-                'max:25'
-            ],
-            'account_holder' => [
-                'max:50'
-            ],
-            'account_number' => [
-                'max:25'
-            ],
-            'bank_name' => [
                 'max:25'
             ],
             'address' => [

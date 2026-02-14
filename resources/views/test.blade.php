@@ -10,9 +10,7 @@
 
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     </head>
-
     <body class="p-20">
-
         <div class="max-w-xs">
             <div
                 x-data="select({ data: { au: 'Australia', be: 'Belgium', cn: 'China', fr: 'France', de: 'Germany', it: 'Italy', mx: 'Mexico', es: 'Spain', tr: 'Turkey', gb: 'United Kingdom', 'us': 'United States' }, emptyOptionsMessage: 'No countries match your search.', name: 'country', placeholder: 'Select a country' })"
@@ -55,7 +53,6 @@
                                     </span>
                               </button>
                         </span>
-
                 <div
                     x-show="open"
                     x-transition:leave="transition ease-in duration-100"

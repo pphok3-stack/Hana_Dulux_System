@@ -86,21 +86,9 @@
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td colspan="3" class="text-end"><strong>Subtotal</strong></td>
-                                    <td class="text-center">
-                                        <strong>{{ Cart::subtotal() }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3" class="text-end"><strong>Tax</strong></td>
-                                    <td class="text-center">
-                                        <strong>{{ Cart::tax() }}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td colspan="3" class="text-end"><strong>Total</strong></td>
                                     <td class="text-center">
-                                        <strong>{{ Cart::total() }}</strong>
+                                        <strong>{{ Cart::subtotal() }}</strong>
                                     </td>
                                 </tr>
                                 </tbody>
@@ -137,7 +125,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title text-center mx-auto" id="modalCenterTitle">Invoice of {{ $customer->name }}<br/>Total Amount ${{ Cart::total() }}</h3>
+                <h3 class="modal-title text-center mx-auto" id="modalCenterTitle">Invoice of {{ $customer->name }}<br/>Total Amount ${{ Cart::subtotal() }}</h3>
             </div>
 
             <form action="{{ route('orders.store') }}" method="POST">

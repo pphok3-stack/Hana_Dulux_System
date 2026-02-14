@@ -54,42 +54,10 @@
                                 <div class="row row-cards">
                                     <div class="col-md-12">
                                         <x-input name="name" :required="true"/>
-
-                                        <x-input name="email" label="Email address" :required="true"/>
                                     </div>
 
                                     <div class="col-sm-6 col-md-6">
                                         <x-input label="Phone Number" name="phone" :required="true"/>
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6">
-                                        <label for="bank_name" class="form-label">
-                                            Bank Name
-                                        </label>
-
-                                        <select class="form-select form-control-solid @error('bank_name') is-invalid @enderror" id="bank_name" name="bank_name">
-                                            <option selected="" disabled="">Select a bank:</option>
-                                            <option value="BRI" @if(old('bank_name') == 'BRI')selected="selected"@endif>BRI</option>
-                                            <option value="BNI" @if(old('bank_name') == 'BNI')selected="selected"@endif>BNI</option>
-                                            <option value="BCA" @if(old('bank_name') == 'BCA')selected="selected"@endif>BCA</option>
-                                            <option value="BSI" @if(old('bank_name') == 'BSI')selected="selected"@endif>BSI</option>
-                                            <option value="Mandiri" @if(old('bank_name') == 'Mandiri')selected="selected"@endif>Mandiri</option>
-                                        </select>
-
-                                        @error('bank_name')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-
-
-                                    <div class="col-sm-6 col-md-6">
-                                        <x-input label="Account holder" name="account_holder" />
-                                    </div>
-
-                                    <div class="col-sm-6 col-md-6">
-                                        <x-input label="Account number" name="account_number" />
                                     </div>
 
                                     <div class="mb-3">

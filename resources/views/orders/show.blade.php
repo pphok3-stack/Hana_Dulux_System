@@ -12,43 +12,6 @@
                     </div>
 
                     <div class="card-actions btn-actions">
-                        @if ($order->order_status === \App\Enums\OrderStatus::PENDING)
-                            <div class="dropdown">
-                                <a href="#" class="btn-action dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-haspopup="true"
-                                    aria-expanded="false"><!-- Download SVG icon from http://tabler-icons.io/i/dots-vertical -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M12 12m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                        <path d="M12 19m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                        <path d="M12 5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
-                                    </svg>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-end" style="">
-                                    <form action="{{ route('orders.update', $order->uuid) }}" method="POST">
-                                        @csrf
-                                        @method('put')
-
-                                        <button type="submit" class="dropdown-item text-success"
-                                            onclick="return confirm('Are you sure you want to approve this order?')">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon icon-tabler icon-tabler-check" width="24" height="24"
-                                                viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                                stroke-linecap="round" stroke-linejoin="round">
-                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                                <path d="M5 12l5 5l10 -10" />
-                                            </svg>
-
-                                            {{ __('Approve Order') }}
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        @endif
-                        
                         <x-action.close route="{{ route('orders.index') }}" />
                     </div>
                 </div>
@@ -132,19 +95,33 @@
                                     </tr>
                                 @endforeach
                                 <tr>
-                                    <td colspan="6" class="text-end">
-                                        Payed amount
-                                    </td>
+                                    <td colspan="6" class="text-end">Total</td>
+                                    <td class="text-center">{{ number_format($order->total, 2) }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6" class="text-end">Paid Amount</td>
                                     <td class="text-center">{{ number_format($order->pay, 2) }}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="6" class="text-end">Due</td>
                                     <td class="text-center">{{ number_format($order->due, 2) }}</td>
                                 </tr>
-                               
+                                @php
+                                    $outstandingBalance = $order->customer->total_due;
+                                @endphp
+                                @if($outstandingBalance > 0)
                                 <tr>
-                                    <td colspan="6" class="text-end">Total DUE</td>
-                                    <td class="text-center">{{ number_format($order->total, 2) }}</td>
+                                    <td colspan="6" class="text-end text-danger">
+                                        <strong>Outstanding Balance (All Orders)</strong>
+                                    </td>
+                                    <td class="text-center text-danger">
+                                        <strong>{{ number_format($outstandingBalance, 2) }}</strong>
+                                    </td>
+                                </tr>
+                                @endif
+                                <tr>
+                                    <td colspan="6" class="text-end">Points Balance</td>
+                                    <td class="text-center">{{ $order->customer->points }} pts</td>
                                 </tr>
                                 <tr>
                                     <td colspan="6" class="text-end">Status</td>
@@ -162,17 +139,6 @@
                 </div>
 
                 <div class="card-footer text-end">
-                    @if ($order->order_status === \App\Enums\OrderStatus::PENDING)
-                        <form action="{{ route('orders.update', $order->uuid) }}" method="POST">
-                            @method('put')
-                            @csrf
-
-                            <button type="submit" class="btn btn-success"
-                                onclick="return confirm('Are you sure you want to complete this order?')">
-                                {{ __('Complete Order') }}
-                            </button>
-                        </form>
-                    @endif
                 </div>
             </div>
 

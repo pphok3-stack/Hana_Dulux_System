@@ -43,15 +43,6 @@
                                     value="{{ $quotation->customer_name }}" disabled>
                             </div>
 
-                            <div class="col-3">
-                                <label for="create_by" class="small mb-1">
-                                    {{ __('Tax %') }}
-                                </label>
-                                <input type="text" id="create_by" class="form-control"
-                                    value="{{ $quotation->tax_percentage ?? null }}" disabled>
-                            </div>
-
-
                             <div class="col-12">
                                 <label for="create_by" class="small mb-1">
                                     {{ __('Note') }}
@@ -127,15 +118,6 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 {{ number_format($quotation->total_amount, 2) }}
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td class="align-middle text-end" colspan="7">
-                                                Tax
-                                            </td>
-                                            <td class="align-middle text-center">
-                                                {{ number_format($quotation->tax_amount, 2) }}
                                             </td>
                                         </tr>
 

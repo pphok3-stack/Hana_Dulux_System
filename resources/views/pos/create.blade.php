@@ -51,7 +51,6 @@
                                         <h4 class="inv-title-1">Customer</h4>
                                         <p class="inv-from-1">{{ $customer->name }}</p>
                                         <p class="inv-from-1">{{ $customer->phone }}</p>
-                                        <p class="inv-from-1">{{ $customer->email }}</p>
                                         <p class="inv-from-2">{{ $customer->address }}</p>
                                     </div>
                                     <div class="col-sm-6 text-end mb-50">
@@ -84,23 +83,27 @@
                                             </tr>
                                             @endforeach
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Subtotal</strong></td>
+                                                <td colspan="3" class="text-end"><strong>Total</strong></td>
                                                 <td class="text-center">
                                                     <strong>{{ Cart::subtotal() }}</strong>
                                                 </td>
                                             </tr>
+                                            @if($customer->total_due > 0)
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Tax</strong></td>
-                                                <td class="text-center">
-                                                    <strong>{{ Cart::tax() }}</strong>
+                                                <td colspan="3" class="text-end"><strong>Outstanding Balance</strong></td>
+                                                <td class="text-center text-danger">
+                                                    <strong>{{ number_format($customer->total_due, 2) }}</strong>
                                                 </td>
                                             </tr>
+                                            @endif
+                                            @if($customer->points > 0)
                                             <tr>
-                                                <td colspan="3" class="text-end"><strong>Total</strong></td>
-                                                <td class="text-center">
-                                                    <strong>{{ Cart::total() }}</strong>
+                                                <td colspan="3" class="text-end"><strong>Available Points</strong></td>
+                                                <td class="text-center text-success">
+                                                    <strong>{{ $customer->points }}</strong>
                                                 </td>
                                             </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -152,6 +155,15 @@
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
+                                        <label class="form-label">
+                                            {{ __('Points Balance') }}
+                                        </label>
+                                        <input type="text" class="form-control" value="{{ $customer->points }} pts (${{ $customer->points }} discount)" disabled>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
                                         <label for="payment_type" class="form-label required">
                                             {{ __('Payment') }}
                                         </label>
@@ -171,7 +183,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
+                                <div class="col-lg-6">
                                     <label for="pay" class="form-label required">
                                         {{ __('Pay Now') }}
                                     </label>
@@ -190,6 +202,18 @@
                                     </div>
                                     @enderror
                                 </div>
+
+                                @if($customer->points > 0)
+                                <div class="col-lg-6 d-flex align-items-end mb-3">
+                                    <label class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="apply_points" value="1">
+                                        <span class="form-check-label">
+                                            {{ __('Apply Points') }}
+                                            <small class="text-muted">({{ $customer->points }} pts = ${{ $customer->points }} discount)</small>
+                                        </span>
+                                    </label>
+                                </div>
+                                @endif
                             </div>
                         </div>
 

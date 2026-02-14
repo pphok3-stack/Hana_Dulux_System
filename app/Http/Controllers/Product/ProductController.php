@@ -54,12 +54,7 @@ class ProductController extends Controller
         }
 
         Product::create([
-            "code" => IdGenerator::generate([
-                'table' => 'products',
-                'field' => 'code',
-                'length' => 4,
-                'prefix' => 'PC'
-            ]),
+            "code" => generate_code('products', 'code', 'PC', 4),
 
             'product_image'     => $image,
             'name'              => $request->name,
@@ -69,8 +64,6 @@ class ProductController extends Controller
             'buying_price'      => $request->buying_price,
             'selling_price'     => $request->selling_price,
             'quantity_alert'    => $request->quantity_alert,
-            'tax'               => $request->tax,
-            'tax_type'          => $request->tax_type,
             'notes'             => $request->notes,
             "user_id" => auth()->id(),
             "slug" => Str::slug($request->name, '-'),
@@ -132,8 +125,6 @@ class ProductController extends Controller
         'buying_price' => $request->buying_price,
         'selling_price' => $request->selling_price,
         'quantity_alert' => $request->quantity_alert,
-        'tax' => $request->tax,
-        'tax_type' => $request->tax_type,
         'notes' => $request->notes,
         'product_image' => $image, // Update the image path
     ]);

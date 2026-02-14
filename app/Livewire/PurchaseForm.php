@@ -4,15 +4,11 @@ namespace App\Livewire;
 
 use App\Models\Product;
 use Livewire\Component;
-use Livewire\Attributes\Validate;
 use Illuminate\Support\Collection;
 use Illuminate\Contracts\View\View;
 
 class PurchaseForm extends Component
 {
-    #[Validate('Required')]
-    public int $taxes = 0;
-
     public array $invoiceProducts = [];
 
     #[Validate('required', message: 'Please select products')]
@@ -37,7 +33,7 @@ class PurchaseForm extends Component
 
         return view('livewire.purchase-form', [
             'subtotal' => $total,
-            'total' => $total * (1 + (is_numeric($this->taxes) ? $this->taxes : 0) / 100)
+            'total' => $total
         ]);
     }
 

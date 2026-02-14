@@ -18,8 +18,7 @@ class QuotationDetails extends Model
         'unit_price',
         'sub_total',
         'product_discount_amount',
-        'product_discount_type',
-        'product_tax_amount'
+        'product_discount_type'
     ];
 
     protected $with = ['product'];
@@ -72,11 +71,4 @@ class QuotationDetails extends Model
         );
     }
 
-    protected function productTaxAmount(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
-    }
 }

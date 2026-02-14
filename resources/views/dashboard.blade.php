@@ -101,13 +101,14 @@
                                 </div>
                             </div>
                         </div>
+                        {{-- Purchase card commented out
                         <div class="col-sm-6 col-lg-4">
                             <div class="card card-sm">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-auto">
                                             <span
-                                                class="bg-twitter text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/brand-twitter -->
+                                                class="bg-twitter text-white avatar">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
                                                     class="icon icon-tabler icon-tabler-truck-delivery" width="24"
                                                     height="24" viewBox="0 0 24 24" stroke-width="2"
@@ -133,6 +134,7 @@
                                 </div>
                             </div>
                         </div>
+                        --}}
                        
                     </div>
                 </div>

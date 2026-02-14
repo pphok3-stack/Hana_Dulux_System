@@ -17,13 +17,10 @@ class Customer extends Model
 
     protected $fillable = [
         'name',
-        'email',
         'phone',
         'address',
         'photo',
-        'account_holder',
-        'account_number',
-        'bank_name',
+        'points',
         "user_id",
         "uuid"
     ];
@@ -43,10 +40,14 @@ class Customer extends Model
         return $this->HasMany(Quotation::class);
     }
 
+    public function getTotalDueAttribute()
+    {
+        return $this->orders()->sum('due');
+    }
+
     public function scopeSearch($query, $value): void
     {
         $query->where('name', 'like', "%{$value}%")
-            ->orWhere('email', 'like', "%{$value}%")
             ->orWhere('phone', 'like', "%{$value}%");
     }
      /**

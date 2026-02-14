@@ -50,7 +50,6 @@ class QuotationController extends Controller
                 'reference' => $request->reference,
                 'customer_id' => $request->customer_id,
                 'customer_name' => Customer::findOrFail($request->customer_id)->name,
-                'tax_percentage' => $request->tax_percentage,
                 'discount_percentage' => $request->discount_percentage,
                 'shipping_amount' => $request->shipping_amount, //* 100,
                 'total_amount' => $request->total_amount, //* 100,
@@ -58,7 +57,6 @@ class QuotationController extends Controller
                 'note' => $request->note,
                 "uuid" => Str::uuid(),
                 "user_id" => auth()->id(),
-                'tax_amount' => Cart::instance('quotation')->tax(), //* 100,
                 'discount_amount' => Cart::instance('quotation')->discount(), //* 100,
             ]);
 
@@ -74,7 +72,6 @@ class QuotationController extends Controller
                     'sub_total' => $cart_item->options->sub_total, //* 100,
                     'product_discount_amount' => $cart_item->options->product_discount, //* 100,
                     'product_discount_type' => $cart_item->options->product_discount_type,
-                    'product_tax_amount' => $cart_item->options->product_tax, //* 100,
                 ]);
                 //status = sent, reduce product quantity
                 if ($request->status == 1) {

@@ -15,8 +15,6 @@ class Quotation extends Model
         'reference',
         'customer_id',
         'customer_name',
-        'tax_percentage',
-        'tax_amount',
         'discount_percentage',
         'discount_amount',
         'shipping_amount',
@@ -65,14 +63,6 @@ class Quotation extends Model
     }
 
     protected function totalAmount(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => $value / 100,
-            set: fn ($value) => $value * 100,
-        );
-    }
-
-    protected function taxAmount(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => $value / 100,

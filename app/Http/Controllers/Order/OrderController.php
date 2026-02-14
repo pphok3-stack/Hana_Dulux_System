@@ -46,27 +46,27 @@ class OrderController extends Controller
 
     public function store(OrderStoreRequest $request)
     {
-        // Calculation without VAT
-        $subTotal = Cart::subtotal(); 
-        $total = Cart::total(); // This should already exclude VAT from cart
+        $total = Cart::subtotal();
+        $customer = Customer::findOrFail($request->customer_id);
+
+        // Points discount (checkbox: apply all points or none)
+        $pointsUsed = $request->apply_points ? $customer->points : 0;
+        $pointsDiscount = $pointsUsed; // 1 point = $1
+        $finalTotal = max(0, $total - $pointsDiscount);
+        $due = $finalTotal - $request->pay;
 
         $order = Order::create([
             'customer_id' => $request->customer_id,
             'payment_type' => $request->payment_type,
             'pay' => $request->pay,
             'order_date' => Carbon::now()->format('Y-m-d'),
-            'order_status' => OrderStatus::PENDING->value,
+            'order_status' => OrderStatus::COMPLETE->value,
             'total_products' => Cart::count(),
-            'sub_total' => $subTotal,
-            'vat' => 0, // Set VAT to 0
-            'total' => $total, 
-            'invoice_no' => IdGenerator::generate([
-                'table' => 'orders',
-                'field' => 'invoice_no',
-                'length' => 10,
-                'prefix' => 'INV-'
-            ]),
-            'due' => ($total - $request->pay), 
+            'sub_total' => $total,
+            'vat' => 0,
+            'total' => $finalTotal,
+            'invoice_no' => generate_invoice_number('INV-', 10),
+            'due' => $due,
             'user_id' => auth()->id(),
             'uuid' => Str::uuid(),
         ]);
@@ -86,12 +86,37 @@ class OrderController extends Controller
             OrderDetails::insert($oDetails);
         }
 
+        // Deduct stock
+        $stockAlertProducts = [];
+        foreach ($contents as $content) {
+            $product = Product::find($content->id);
+            if ($product) {
+                $newQty = $product->quantity - $content->qty;
+                if ($newQty < $product->quantity_alert) {
+                    $stockAlertProducts[] = $product;
+                }
+                $product->update(['quantity' => $newQty]);
+            }
+        }
+
+        // Send stock alert email
+        if (count($stockAlertProducts) > 0) {
+            $adminEmails = User::pluck('email')->toArray();
+            Mail::to($adminEmails)->send(new StockAlert($stockAlertProducts));
+        }
+
+        // Update customer points
+        $pointsEarned = (int) floor($finalTotal / 100);
+        $customer->update([
+            'points' => $customer->points - $pointsUsed + $pointsEarned,
+        ]);
+
         // Clear Cart after placing the order
         Cart::destroy();
 
         return redirect()
             ->route('orders.index')
-            ->with('success', 'Order has been created!');
+            ->with('success', 'Order has been completed!');
     }
 
     public function show($uuid)
@@ -106,39 +131,9 @@ class OrderController extends Controller
 
     public function update($uuid, Request $request)
     {
-        $order = Order::where('uuid', $uuid)->firstOrFail();
-        
-        // Reduce stock
-        $products = OrderDetails::where('order_id', $order->id)->get();
-        $stockAlertProducts = [];
-
-        foreach ($products as $product) {
-            $productEntity = Product::where('id', $product->product_id)->first();
-            $newQty = $productEntity->quantity - $product->quantity;
-            if ($newQty < $productEntity->quantity_alert) {
-                $stockAlertProducts[] = $productEntity;
-            }
-            $productEntity->update(['quantity' => $newQty]);
-        }
-
-        if (count($stockAlertProducts) > 0) {
-            $listAdmin = [];
-            foreach (User::all('email') as $admin) {
-                $listAdmin [] = $admin->email;
-            }
-            Mail::to($listAdmin)->send(new StockAlert($stockAlertProducts));
-        }
-
-        $order->update([
-            'order_status' => OrderStatus::COMPLETE,
-            'due' => '0',
-            'pay' => $order->total,
-            'vat' => 0 // Ensure VAT is always set to 0
-        ]);
-
-        return redirect()
-            ->route('orders.complete')
-            ->with('success', 'Order has been completed!');
+        // Orders are now completed immediately at creation.
+        // This method is kept for route compatibility.
+        return redirect()->route('orders.index');
     }
 
     public function destroy($uuid)
@@ -153,6 +148,35 @@ class OrderController extends Controller
 
         return view('orders.print-invoice', [
             'order' => $order,
+        ]);
+    }
+
+    public function receiptHistory(Request $request)
+    {
+        $query = Order::where('user_id', auth()->id())
+            ->with(['customer', 'details']);
+
+        if ($request->customer) {
+            $query->whereHas('customer', function ($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->customer . '%');
+            });
+        }
+
+        if ($request->start_date) {
+            $query->whereDate('order_date', '>=', $request->start_date);
+        }
+
+        if ($request->end_date) {
+            $query->whereDate('order_date', '<=', $request->end_date);
+        }
+
+        $orders = $query->orderBy('order_date', 'desc')->get();
+
+        return view('orders.receipt-history', [
+            'orders' => $orders,
+            'startDate' => $request->start_date,
+            'endDate' => $request->end_date,
+            'customerFilter' => $request->customer,
         ]);
     }
 

@@ -126,23 +126,6 @@
 
                                 <tr>
                                     <td class="align-middle text-end" colspan="7">
-                                        Tax Percentage
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {{ number_format($purchase->tax_percentage, 2) }}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="align-middle text-end" colspan="7">
-                                        Tax Amount
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        {{ number_format($purchase->tax_amount, 2) }}
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="align-middle text-end" colspan="7">
                                         Status
                                     </td>
                                     <td class="align-middle text-center">
