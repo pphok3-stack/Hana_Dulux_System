@@ -21,13 +21,13 @@ return new class extends Migration
             $table->tinyInteger('order_status')
                 ->comment('0 - Pending / 1 - Complete');
             $table->integer('total_products');
-            $table->integer('sub_total');
-            $table->integer('vat');
-            $table->integer('total');
+            $table->decimal('sub_total', 10, 2);
+            $table->decimal('vat', 10, 2);
+            $table->decimal('total', 10, 2);
             $table->string('invoice_no');
             $table->string('payment_type');
-            $table->integer('pay');
-            $table->integer('due');
+            $table->decimal('pay', 10, 2);
+            $table->decimal('due', 10, 2);
             $table->timestamps();
         });
     }
