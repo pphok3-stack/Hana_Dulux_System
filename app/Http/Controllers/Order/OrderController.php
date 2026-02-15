@@ -99,11 +99,12 @@ class OrderController extends Controller
             }
         }
 
-        // Send stock alert email
-        if (count($stockAlertProducts) > 0) {
-            $adminEmails = User::pluck('email')->toArray();
-            Mail::to($adminEmails)->send(new StockAlert($stockAlertProducts));
-        }
+        // Send stock alert email - TEMPORARILY DISABLED
+        // TODO: Fix SMTP configuration before re-enabling
+        // if (count($stockAlertProducts) > 0) {
+        //     $adminEmails = User::pluck('email')->toArray();
+        //     Mail::to($adminEmails)->send(new StockAlert($stockAlertProducts));
+        // }
 
         // Update customer points
         $pointsEarned = (int) floor($finalTotal / 100);
